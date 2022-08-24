@@ -51,12 +51,12 @@
     "prepublishOnly": "npm run build"
   },
   "dependencies": {
+    "@osn/provider-options": "^1.0.2",
     "bignumber.js": "^9.1.0",
     "lodash.debounce": "^4.0.8"
   },
   "peerDependencies": {
     "@osn/constants": "^1.1.2",
-    "@osn/provider-options": "^1.0.2",
     "@polkadot/api": "*",
     "@polkadot/extension-dapp": "*",
     "@polkadot/util": "*",
