@@ -46,25 +46,30 @@
     }
   },
   "scripts": {
-    "build-fast": "tsup",
-    "build": "pnpm run build-fast",
+    "build": "tsup",
     "test": "vitest run",
-    "prepublishOnly": "pnpm run build"
+    "prepublishOnly": "npm run build"
   },
   "dependencies": {
-    "@osn/constants": "^1.1.2",
-    "@osn/provider-options": "^1.0.2",
     "bignumber.js": "^9.1.0",
     "lodash.debounce": "^4.0.8"
   },
   "peerDependencies": {
-    "@polkadot/extension-dapp": "^0.44.2-3",
+    "@osn/constants": "^1.1.2",
+    "@osn/provider-options": "^1.0.2",
+    "@polkadot/api": "*",
+    "@polkadot/extension-dapp": "*",
+    "@polkadot/util": "*",
+    "@polkadot/util-crypto": "*",
     "react": "^17.0.2",
     "react-dom": "^17.0.2"
   },
   "devDependencies": {
     "@2nthony/prettier-config": "1.0.1",
+    "@polkadot/api": "^9.2.2",
     "@polkadot/extension-dapp": "^0.44.2-3",
+    "@polkadot/util": "^10.1.4",
+    "@polkadot/util-crypto": "^10.1.4",
     "@types/react": "^18.0.17",
     "prettier": "2.5.1",
     "react": "^17.0.2",
