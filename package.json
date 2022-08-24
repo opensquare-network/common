@@ -51,12 +51,12 @@
     "prepublishOnly": "npm run build"
   },
   "dependencies": {
+    "@osn/provider-options": "^1.0.2",
     "bignumber.js": "^9.1.0",
     "lodash.debounce": "^4.0.8"
   },
   "peerDependencies": {
     "@osn/constants": "^1.1.2",
-    "@osn/provider-options": "^1.0.2",
     "@polkadot/api": "*",
     "@polkadot/extension-dapp": "*",
     "@polkadot/util": "*",
@@ -66,6 +66,7 @@
   },
   "devDependencies": {
     "@2nthony/prettier-config": "1.0.1",
+    "@osn/constants": "^1.1.2",
     "@polkadot/api": "^9.2.2",
     "@polkadot/extension-dapp": "^0.44.2-3",
     "@polkadot/util": "^10.1.4",
