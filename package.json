@@ -38,6 +38,11 @@
     "./es/*": {
       "import": "./dist/esm/*",
       "require": "./dist/*"
+    },
+    "./extension": {
+      "import": "./dist/esm/extension.js",
+      "require": "./dist/extension.js",
+      "types": "./dist/extension.d.ts"
     }
   },
   "scripts": {
