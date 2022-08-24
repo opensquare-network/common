@@ -1,4 +1,5 @@
 import { useEffect, useState, useRef } from "react";
+import { MOBILE_SIZE } from "@osn/constants";
 
 export function useOnClickOutside(ref, handler) {
   useEffect(() => {
@@ -62,4 +63,13 @@ export function useIsMounted() {
   }, []);
 
   return isMounted;
+}
+
+export function useIsScreen() {
+  const { width } = useWindowSize();
+
+  return {
+    isDesktop: width > MOBILE_SIZE,
+    isMobile: width <= MOBILE_SIZE,
+  };
 }
