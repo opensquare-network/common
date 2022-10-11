@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useIsMounted } from "../utils/hooks";
+import { useIsMounted } from "../hooks/useIsMounted";
 
 /**
  * @typedef {{
