@@ -43,6 +43,15 @@
       "import": "./dist/esm/extension.js",
       "require": "./dist/extension.js",
       "types": "./dist/extension.d.ts"
+    },
+    "./hooks": {
+      "import": "./dist/esm/hooks/index.js",
+      "require": "./dist/hooks/index.js",
+      "types": "./dist/hooks/index.d.ts"
+    },
+    "./hooks/*": {
+      "import": "./dist/esm/hooks/*",
+      "require": "./dist/hooks/*"
     }
   },
   "scripts": {
