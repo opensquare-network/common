@@ -70,8 +70,8 @@
     "@polkadot/extension-dapp": "*",
     "@polkadot/util": "*",
     "@polkadot/util-crypto": "*",
-    "react": "^17.0.2",
-    "react-dom": "^17.0.2"
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
   },
   "devDependencies": {
     "@2nthony/prettier-config": "1.0.1",
@@ -82,8 +82,8 @@
     "@polkadot/util-crypto": "^10.1.4",
     "@types/react": "^18.0.17",
     "prettier": "2.5.1",
-    "react": "^17.0.2",
-    "react-dom": "^17.0.2",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
     "tsup": "6.0.1",
     "typescript": "^4.7.4",
     "vitest": "0.12.6"
