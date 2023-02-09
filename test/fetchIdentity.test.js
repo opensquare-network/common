@@ -10,6 +10,7 @@ test("fetchIdentity error", async () => {
 });
 
 test("fetchIdentity success", async () => {
+  // Will fetch from https://id.statescan.io by default when env configuration does not exist
   await expect(
     fetchIdentity("kusama", "GLVeryFRbg5hEKvQZcAnLvXZEXhiYaBjzSDwrXBXrfPF7wj")
   ).resolves.toEqual({
