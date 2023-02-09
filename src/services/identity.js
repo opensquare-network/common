@@ -1,6 +1,6 @@
 import debounce from "lodash.debounce";
 import { identityChainMap } from "@osn/constants";
-import { encodeNetworkAddress } from "../utils";
+import { Deferred, encodeNetworkAddress } from "../utils";
 
 const identityServerHost =
   process.env.REACT_APP_IDENTITY_SERVER_HOST ||
@@ -50,27 +50,23 @@ const delayQuery = debounce((fetchOptions) => {
       .then((data) => {
         const identities = new Map(data.map((item) => [item.address, item]));
 
-        for (const [idName, [, resolve, reject]] of pending) {
+        for (const [idName, deferred] of pending) {
           const [chainOfIdName, addrOfIdName] = idName.split("/");
           if (chainOfIdName !== chain) {
             continue;
           }
           const identity = identities.get(addrOfIdName) || null;
           cachedIdentities.set(idName, identity);
-          if (resolve) {
-            resolve(identity);
-          }
+          deferred.resolve(identity);
         }
       })
       .catch(() => {
-        for (const [idName, [, , reject]] of pending) {
+        for (const [idName, deferred] of pending) {
           const [chainOfIdName] = idName.split("/");
           if (chainOfIdName !== chain) {
             continue;
           }
-          if (reject) {
-            reject();
-          }
+          deferred.reject();
         }
       });
   }
@@ -79,27 +75,20 @@ const delayQuery = debounce((fetchOptions) => {
 /**
  * @param {RequestInit} fetchOptions
  */
-export function fetchIdentity(chain, address, fetchOptions = {}) {
+export async function fetchIdentity(chain, address, fetchOptions = {}) {
   const targetChain = identityChainMap[chain] || chain;
   const targetAddress = encodeNetworkAddress(address, targetChain);
   const idName = `${targetChain}/${targetAddress}`;
   if (cachedIdentities.has(idName)) {
-    return Promise.resolve(cachedIdentities.get(idName));
+    return cachedIdentities.get(idName);
   }
 
   const pending = pendingQueries;
 
   if (!pending.has(idName)) {
-    pending.set(idName, [
-      new Promise((resolve, reject) =>
-        setTimeout(() => {
-          const promise = pending.get(idName);
-          promise.push(resolve, reject);
-          delayQuery(fetchOptions);
-        }, 0)
-      ),
-    ]);
+    pending.set(idName, new Deferred());
+    delayQuery(fetchOptions);
   }
 
-  return pending.get(idName)[0];
+  return await pending.get(idName).promise;
 }
