@@ -4,7 +4,7 @@ import { useIsomorphicLayoutEffect } from "./useIsomorphicLayoutEffect";
 
 /**
  * Reactive window size
- * @param {Object?} options
+ * @param {Object} options
  * @param {number?} options.initialWidth
  * @param {number?} options.initialHeight
  * @param {boolean?} options.includeScrollbar
