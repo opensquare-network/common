@@ -1,10 +1,14 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
+import { _document, _window } from "../shared";
+import { useIsomorphicLayoutEffect } from "./useIsomorphicLayoutEffect";
 
 /**
- * @param {Object} options
+ * Reactive window size
+ * @param {Object?} options
  * @param {number?} options.initialWidth
  * @param {number?} options.initialHeight
  * @param {boolean?} options.includeScrollbar
+ * @returns {{width: number, height: number}}
  */
 export function useWindowSize(options) {
   const {
@@ -17,26 +21,22 @@ export function useWindowSize(options) {
   const [height, setHeight] = useState(initialHeight);
 
   const update = () => {
-    if (window) {
+    if (_window) {
       if (includeScrollbar) {
-        setWidth(window.innerWidth);
-        setHeight(window.innerHeight);
+        setWidth(_window.innerWidth);
+        setHeight(_window.innerHeight);
       } else {
-        setWidth(window.document.documentElement.clientWidth);
-        setHeight(window.document.documentElement.clientHeight);
+        setWidth(_window.document.documentElement.clientWidth);
+        setHeight(_window.document.documentElement.clientHeight);
       }
     }
   };
 
-  update();
-
-  useEffect(() => {
-    window.addEventListener("resize", update, { passive: true });
-    return () => window.removeEventListener("resize", update);
+  useIsomorphicLayoutEffect(() => {
+    update();
+    _window.addEventListener("resize", update, { passive: true });
+    return () => _window.removeEventListener("resize", update);
   }, []);
 
-  return {
-    width,
-    height,
-  };
+  return { width, height };
 }
