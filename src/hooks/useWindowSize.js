@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { _document, _window } from "../shared";
+import { _window } from "../shared";
 import { useIsomorphicLayoutEffect } from "./useIsomorphicLayoutEffect";
 
 /**
