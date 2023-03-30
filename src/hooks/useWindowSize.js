@@ -1,24 +1,42 @@
 import { useEffect, useState } from "react";
 
-export function useWindowSize() {
-  const [windowSize, setWindowSize] = useState(getWindowSize());
+/**
+ * @param {Object} options
+ * @param {number?} options.initialWidth
+ * @param {number?} options.initialHeight
+ * @param {boolean?} options.includeScrollbar
+ */
+export function useWindowSize(options) {
+  const {
+    initialWidth = Infinity,
+    initialHeight = Infinity,
+    includeScrollbar = true,
+  } = options ?? {};
 
-  function getWindowSize() {
-    return {
-      width: window?.innerWidth,
-      height: window?.innerHeight,
-    };
-  }
+  const [width, setWidth] = useState(initialWidth);
+  const [height, setHeight] = useState(initialHeight);
 
-  function handleResize() {
-    setWindowSize(getWindowSize());
-  }
+  const update = () => {
+    if (window) {
+      if (includeScrollbar) {
+        setWidth(window.innerWidth);
+        setHeight(window.innerHeight);
+      } else {
+        setWidth(window.document.documentElement.clientWidth);
+        setHeight(window.document.documentElement.clientHeight);
+      }
+    }
+  };
+
+  update();
 
   useEffect(() => {
-    window.addEventListener("resize", handleResize);
-    handleResize();
-    return () => window.removeEventListener("resize", handleResize);
+    window.addEventListener("resize", update, { passive: true });
+    return () => window.removeEventListener("resize", update);
   }, []);
 
-  return windowSize;
+  return {
+    width,
+    height,
+  };
 }
