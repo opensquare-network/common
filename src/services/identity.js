@@ -3,8 +3,8 @@ import { identityChainMap } from "@osn/constants";
 import { Deferred, encodeNetworkAddress } from "../utils";
 
 const identityServerHost =
-  process.env.REACT_APP_IDENTITY_SERVER_HOST ||
-  process.env.NEXT_PUBLIC_IDENTITY_SERVER_HOST ||
+  process?.env?.REACT_APP_IDENTITY_SERVER_HOST ||
+  process?.env?.NEXT_PUBLIC_IDENTITY_SERVER_HOST ||
   "https://id.statescan.io";
 
 const cachedIdentities = new Map();
