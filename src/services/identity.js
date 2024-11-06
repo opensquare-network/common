@@ -2,19 +2,10 @@ import debounce from "lodash.debounce";
 import { identityChainMap } from "@osn/constants";
 import { Deferred, encodeNetworkAddress } from "../utils";
 
-const identityServerHost =
-  (typeof process !== "undefined"
-    ? process.env.REACT_APP_IDENTITY_SERVER_HOST
-    : undefined) ||
-  (typeof process !== "undefined"
-    ? process.env.NEXT_PUBLIC_IDENTITY_SERVER_HOST
-    : undefined) ||
-  "https://id.statescan.io";
-
 const cachedIdentities = new Map();
 let pendingQueries = new Map();
 
-const delayQuery = debounce((fetchOptions) => {
+const delayQuery = debounce((identityServerHost, fetchOptions) => {
   const pending = pendingQueries;
   if (pending.size < 1) {
     return;
@@ -76,23 +67,27 @@ const delayQuery = debounce((fetchOptions) => {
   }
 }, 0);
 
-/**
- * @param {RequestInit} fetchOptions
- */
-export async function fetchIdentity(chain, address, fetchOptions = {}) {
-  const targetChain = identityChainMap[chain] || chain;
-  const targetAddress = encodeNetworkAddress(address, targetChain);
-  const idName = `${targetChain}/${targetAddress}`;
-  if (cachedIdentities.has(idName)) {
-    return cachedIdentities.get(idName);
-  }
+export function createFetchIdentity(
+  identityServerHost = "https://id.statescan.io",
+) {
+  /**
+   * @param {RequestInit} fetchOptions
+   */
+  return async function fetchIdentity(chain, address, fetchOptions = {}) {
+    const targetChain = identityChainMap[chain] || chain;
+    const targetAddress = encodeNetworkAddress(address, targetChain);
+    const idName = `${targetChain}/${targetAddress}`;
+    if (cachedIdentities.has(idName)) {
+      return cachedIdentities.get(idName);
+    }
 
-  const pending = pendingQueries;
+    const pending = pendingQueries;
 
-  if (!pending.has(idName)) {
-    pending.set(idName, new Deferred());
-    delayQuery(fetchOptions);
-  }
+    if (!pending.has(idName)) {
+      pending.set(idName, new Deferred());
+      delayQuery(identityServerHost, fetchOptions);
+    }
 
-  return await pending.get(idName).promise;
+    return await pending.get(idName).promise;
+  };
 }
