@@ -4,6 +4,7 @@ import {
   encodeNetworkAddress,
   isSamePublicKey,
 } from "../src/utils/address";
+import { getAddressLink } from "../src/utils/blockExplorer";
 
 test("addressEllipsis", () => {
   expect(addressEllipsis("hahaxxxxxxxxxhoho")).toBe(`haha...hoho`);
@@ -37,4 +38,12 @@ test("isSamePubKey", () => {
       "Fvk5NrmiD2vhMVAb1cShi3ngHqbjbZwDkxCV4rc7s567JCL",
     ),
   ).toBe(false);
+});
+
+test("getAddressLink", () => {
+  expect(
+    getAddressLink("ethereum", "0x04D3C3168af796bf898036A4d4d6DDBa0A1F0164"),
+  ).toBe(
+    "https://etherscan.io/address/0x04D3C3168af796bf898036A4d4d6DDBa0A1F0164",
+  );
 });

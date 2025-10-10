@@ -15,6 +15,10 @@ export function getAddressLink(network, address) {
     return `https://moonriver.moonscan.io/address/${address}`;
   }
 
+  if(Chains.ethereum === network){
+    return `https://etherscan.io/address/${address}`;
+  }
+
   if (StatescanNetworks.includes(network)) {
     return `https://${network}.statescan.io/account/${address}`;
   } else {
